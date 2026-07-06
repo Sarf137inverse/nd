@@ -20,6 +20,7 @@ The core of this language only provides you with the primitives. The Standard Li
 
 ---
 <details>
+
 ## Primitives – What belongs in the core
 
 ### 1. Keywords (16)
