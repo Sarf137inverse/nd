@@ -1,4 +1,4 @@
-## What Belongs in the Core
+## What Belongs in the Core - The distinction between primitives and composition.
 
 The most dillematic thing I faced while designing this language was what stays in the core and what doesn't. Many things felt like they're obvious to a UI language, but could be reduced  to existing features of the language. The reasoning that helped nd bravely reject them follows such:
 
