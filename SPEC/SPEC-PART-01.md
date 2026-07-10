@@ -47,65 +47,25 @@ They are normalized to a single \n during tokenization. A lone CR (\r) not follo
 
 ### 1.4 Comments
 
-`.nd` supports two forms of comments. Comments are recognized only
-in structural mode; a comment marker appearing inside a string
-literal is literal string content, never a comment (see §2.6).
-
-#### 1.4.1 Line Comments
-
 ```ebnf
-LineComment ::= '//' [^\n]*
+Comment ::= '//' [^\n]*
 ```
 
-A line comment begins with `//` and extends to, but does not
-include, the next line terminator. It is removed during
-tokenization and does not affect indentation tracking on the
-line it appears on, nor on subsequent lines.
-
-Once `//` is recognized, all subsequent characters up to the line
-terminator are comment content, unconditionally — including any
-`/*`, `*/`, or `//` sequences, which have no special meaning inside
-an already-open line comment.
+A comment begins with `//` and extends to the end of the line. 
+Erase everything from `//` up to the line terminator during tokenization.
 
 <details>
-<summary>Example</summary>
+<summary>Example: Comments</summary>
 
 ```nd
-// the majority of the internet is now bots
+// through goes Hamilton!!!
+// Comments can be single line or multiline
+// and multiline is just multiple singleline
 @button
   text "Click me"   // click him
-```
-</details>
 
-#### 1.4.2 Block Comments
-
-```ebnf
-BlockComment ::= '/*' ( [^*] | ('*' [^/]) )* '*/'
 ```
 
-A block comment begins with `/*` and ends at the next `*/`. It may
-span multiple lines. While inside a block comment, the lexer applies
-no structural rules: indentation, line terminators, and any other
-content within the comment are treated as opaque and have no effect
-on INDENT/DEDENT tracking. An unterminated block comment (reaching
-end-of-file before a matching `*/`) is a lexical error.
-
-Block comments do not nest. The first `*/` encountered after the
-opening `/*` closes the comment, regardless of any `/*` sequences
-appearing between them.
-
-<details>
-<summary>Example</summary>
-
-```nd
-/* the majority of the internet is now bots
- * big bots
- * small bots
- * wide bots
- * and tall bots */
-@button
-  text "Click, son"
-```
 </details>
 
 ## 2. Lexical Grammar
