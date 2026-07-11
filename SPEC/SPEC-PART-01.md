@@ -51,8 +51,10 @@ They are normalized to a single \n during tokenization. A lone CR (\r) not follo
 Comment ::= '//' [^\n]*
 ```
 
-A comment begins with `//` and extends to the end of the line. 
+A line comment begins with // and continues until (but does not include) the line terminator.
 Erase everything from `//` up to the line terminator during tokenization.
+
+Comments are not recognized inside string literals. // inside a string is treated as literal characters.
 
 <details>
 <summary>Example: Comments</summary>
