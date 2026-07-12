@@ -147,9 +147,6 @@ is given in [Appendix B](#appendixbreservedwordlist).
 **Structure & Scope**  
 `import`  `global`  `slot`
 
-**Navigation**  
-`go`
-
 **Operators**  
 `and`  `or`  `not`  `as`  `in`
 
