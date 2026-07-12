@@ -1,6 +1,10 @@
 # .nd Language Specification - Part 1: Grammar & Lexical Structure  
 
 ## 0. Conformance
+
+> Don't ask questions whose answers are obvious from the design
+
+
 This document specifies the lexical and syntactic grammar of `.nd`  
 
 **source text:** what character sequences constitute valid `.nd` programs,
@@ -11,7 +15,7 @@ This document does NOT specify:
   more than syntactic analysis (see: [Static Semantics specification]())
 - Runtime behavior, frame execution order, or `.ndb` binary format
   (see: [Runtime Semantics specification]())
-- Standard library contents (`hid/*.ndh`, `sdf.ndh`, etc.) — these
+- Standard library contents (`hid/*.ndb`, `sdf.ndb`, etc.) — these
   are ordinary `.nd` programs, governed entirely by this document
   and the Static/Runtime Semantics documents, with no special status
 
@@ -52,6 +56,7 @@ Comment ::= '//' [^\n]*
 ```
 
 A line comment begins with // and continues until (but does not include) the line terminator.
+
 Erase everything from `//` up to the line terminator during tokenization.
 
 Comments are not recognized inside string literals. // inside a string is treated as literal characters.
@@ -64,7 +69,8 @@ Comments are not recognized inside string literals. // inside a string is treate
 // Comments can be single line or multiline
 // and multiline is just multiple singleline
 @button
-  text "Click me"   // click him
+  text "Click me"                  // click him
+  text "http://www.github.com"     // not a comment
 
 ```
 
@@ -79,6 +85,7 @@ The lexer produces a stream of tokens in the following categories. Comments (§1
 | Category | Examples | Defined in |
 |----------|----------|------------|
 | Identifier | `count`, `post`, `card` | §2.2 |
+| Node Sigil | `@` | §2.2 |
 | Reserved Word | `var`, `if`, `each`, `import` | §2.3 |
 | Integer | `200`, `-32`, `0` | §2.4 |
 | Float | `0.08`, `-0.1` | §2.4 |
@@ -86,7 +93,6 @@ The lexer produces a stream of tokens in the following categories. Comments (§1
 | String | `"hello"`, multi-line, interpolated | §2.6 |
 | Punctuation | `(`, `)`, `[`, `]`, `{`, `}`, `.`, `,` | §2.7, §2.8 |
 | Operator | `+`, `==`, `?`, `??`, `\|`, `..` | §2.8 |
-| Node Sigil | `@` | §2.2 |
 | INDENT / DEDENT | (synthetic, no source text) | §2.9 |
 | NEWLINE | (synthetic, statement separator) | §2.9 |
 | EOF | (synthetic, end of token stream) | — |
@@ -118,11 +124,55 @@ reserved word, not as `Identifier`.
 @abstain_island
 ```
 
-Here `count`, `post_card`, and `x1` are each tokenized as
+Here `card`, `big_number_two_eventy_wan_k`, and `abstain_island` are each tokenized as
 `Identifier`, preceded by a separate `@` token.
 </details>
 
 ### 2.3 Reserved Words
+
+Reserved words cannot be used as `Identifier` (§2.2). A token
+matching a reserved word is classified as `ReservedWord`, not
+`Identifier`, regardless of position.
+
+Reserved words are organized below by role for readability; this
+grouping has no grammatical significance. The complete flat list
+is given in [Appendix B](#appendixbreservedwordlist).
+
+**Control Flow & Logic**  
+`if`  `else`  `on`  `each`  `stop`  `return`
+
+**State & Data**  
+`var`  `data`  `task`
+
+**Structure & Scope**  
+`import`  `global`  `slot`
+
+**Navigation**  
+`go`
+
+**Operators**  
+`and`  `or`  `not`  `as`  `in`
+
+**Literals**  
+`true`  `false`  `null`
+
+**Properties**  
+`pos`  `size`  `type`  `radius`  `font`  `surface`  `scroll`
+
+**Content Verbs**  
+`text`  `media`  `paint` `sdf`
+
+**Navigation**  
+`go`
+
+**World Model**  
+`world`  `measure`
+
+**Signal Declaration**  
+`signal`
+
+**Built-in Value**  
+`fit`
 
 ### 2.4 Numeric Literals (int, float, norm-context note)
 
@@ -186,4 +236,46 @@ Here `count`, `post_card`, and `x1` are each tokenized as
 
 
 ## Appendix B. Reserved Word List
+The following tokens are unconditionally reserved in all `.nd` and `.ndh` files:
 
+<table>
+  <thead>
+    <tr><th>Category</th><th>Token</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td rowspan="6"><strong>Control flow</strong></td><td><code>if</code></td><td></td></tr>
+    <tr><td><code>else</code></td><td></td></tr>
+    <tr><td><code>on</code></td><td></td></tr>
+    <tr><td><code>each</code></td><td></td></tr>
+    <tr><td><code>stop</code></td><td></td></tr>
+    <tr><td><code>return</code></td><td></td></tr>
+    <tr><td rowspan="3"><strong>State</strong></td><td><code>var</code></td><td></td></tr>
+    <tr><td><code>data</code></td><td></td></tr>
+    <tr><td><code>task</code></td><td></td></tr>
+    <tr><td rowspan="3"><strong>Structure</strong></td><td><code>import</code></td><td></td></tr>
+    <tr><td><code>global</code></td><td></td></tr>
+    <tr><td><code>slot</code></td><td></td></tr>
+    <tr><td rowspan="4"><strong>Operators</strong></td><td><code>and</code></td><td></td></tr>
+    <tr><td><code>or</code></td><td></td></tr>
+    <tr><td><code>not</code></td><td></td></tr>
+    <tr><td><code>as</code></td><td></td></tr>
+    <tr><td rowspan="3"><strong>Literals</strong></td><td><code>true</code></td><td></td></tr>
+    <tr><td><code>false</code></td><td></td></tr>
+    <tr><td><code>null</code></td><td></td></tr>
+    <tr><td rowspan="7"><strong>Properties</strong></td><td><code>pos</code></td><td></td></tr>
+    <tr><td><code>size</code></td><td></td></tr>
+    <tr><td><code>type</code></td><td></td></tr>
+    <tr><td><code>radius</code></td><td></td></tr>
+    <tr><td><code>font</code></td><td></td></tr>
+    <tr><td><code>surface</code></td><td></td></tr>
+    <tr><td><code>scroll</code></td><td></td></tr>
+    <tr><td rowspan="4"><strong>Content verbs</strong></td><td><code>text</code></td><td></td></tr>
+    <tr><td><code>media</code></td><td></td></tr>
+    <tr><td><code>paint</code></td><td></td></tr>
+    <tr><td><code>sdf</code></td><td></td></tr>
+    <tr><td><strong>Navigation</strong></td><td><code>go</code></td><td></td></tr>
+    <tr><td><strong>World model</strong></td><td><code>world</code></td><td></td></tr>
+    <tr><td><strong>Signal declaration</strong></td><td><code>signal</code></td><td></td></tr>
+    <tr><td><strong>Built-in value</strong></td><td><code>fit</code></td><td></td></tr>
+  </tbody>
+</table>
