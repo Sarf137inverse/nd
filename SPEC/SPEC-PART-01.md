@@ -71,7 +71,6 @@ Comments are not recognized inside string literals. // inside a string is treate
 @button
   text "Click me"                  // click him
   text "http://www.github.com"     // not a comment
-
 ```
 
 </details>
@@ -158,7 +157,6 @@ The presence of a fractional period `.` explicitly designates a FloatLiteral.
 var x 12          // IntLiteral(12)
 var y -12         // Operator(-), IntLiteral(12)
 var z 0.08        // FloatLiteral(0.08)
-
 ```
 </details>
 
@@ -167,7 +165,6 @@ var z 0.08        // FloatLiteral(0.08)
 ```ebnf
 HexLiteral   ::= '0x' HexDigit{8}
 HexDigit     ::= [0-9a-fA-F]
-
 ```
 
 A HexLiteral represents an unsigned 32-bit integer value expressed as a base-16 magnitude. It begins with 0x followed by exactly eight hexadecimal digits.
@@ -185,7 +182,6 @@ Hexadecimal letters are case-insensitive: `0x0055FFFF` and `0x0055ffff` are the 
 ```nd
 var mask 0x0055ffff   // HexLiteral(0x0055ffff), strict 8 digits, 32-bit value
 paint 0x0055FFFF      // HexLiteral(0x0055ffff), resolved as a color value by the 'paint' content verb.
-
 ```
 
 </details>
