@@ -27,8 +27,6 @@ as a syntax error, before any static-semantic analysis occurs.
 Grammar productions in this document use the EBNF notation defined
 by the [W3C XML 1.0 (Fifth Edition) specification, §6](https://www.w3.org/TR/xml/#sec-notation).
 
-Where this document's EBNF and any accompanying prose appear to disagree, the EBNF is authoritative. Prose describes intent; worked examples illustrate it. Neither is normative on its own.
-
 
 ## 1. Source Form 
 
