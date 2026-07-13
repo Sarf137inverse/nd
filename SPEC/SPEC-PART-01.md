@@ -57,7 +57,7 @@ Comment ::= '//' [^\n]*
 
 A line comment begins with // and continues until (but does not include) the line terminator.
 
-Erase everything from `//` up to the line terminator during tokenization.
+Discard everything from `//` up to the line terminator during tokenization.
 
 Comments are not recognized inside string literals. // inside a string is treated as literal characters.
 
