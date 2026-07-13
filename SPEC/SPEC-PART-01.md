@@ -4,24 +4,13 @@
 
 > Don't ask questions whose answers are obvious from the design
 
+This document defines the definitive lexical and syntactic grammar for .nd source text.
 
-This document specifies the lexical and syntactic grammar of `.nd`  
+​To implement a full compiler or interpreter pipeline, this specification must be paired with its companion documents:
+- ​**Static Semantics:** Governs type checking, name binding, and scope resolution. (see: [Static Semantics specification]())
+- **​Runtime Semantics:** Governs bytecode generation, frame execution, and standard library behavior. (see: [Runtime Semantics specification]())
 
-**source text:** what character sequences constitute valid `.nd` programs,
-and how valid programs decompose into tokens and syntax trees.
-
-This document does NOT specify:
-- Type checking, scope resolution, or any other rule that requires
-  more than syntactic analysis (see: [Static Semantics specification]())
-- Runtime behavior, frame execution order, or `.ndb` binary format
-  (see: [Runtime Semantics specification]())
-- Standard library contents (`hid/*.ndb`, `sdf.ndb`, etc.) — these
-  are ordinary `.nd` programs, governed entirely by this document
-  and the Static/Runtime Semantics documents, with no special status
-
-A conforming implementation MUST accept every program this grammar
-defines as valid, and MUST reject every program it defines as invalid,
-as a syntax error, before any static-semantic analysis occurs.
+​Syntax verification occurs entirely before static-semantic analysis. The compiler must abort with a syntax error upon encountering any token sequence not defined by this grammar.
 
 ### Notation  
 Grammar productions in this document use the EBNF notation defined
