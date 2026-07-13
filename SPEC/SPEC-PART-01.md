@@ -162,7 +162,31 @@ var z 0.08        // FloatLiteral(0.08)
 ```
 </details>
 
-### 2.5 Color Literals
+### 2.5 Hexadecimal Literals
+
+```ebnf
+HexLiteral   ::= '0x' HexDigit{8}
+HexDigit     ::= [0-9a-fA-F]
+
+```
+
+A HexLiteral represents an unsigned 32-bit integer value expressed as a base-16 magnitude. It begins with 0x followed by exactly eight hexadecimal digits.
+
+Because HexLiteral shares its leading digit 0 with IntLiteral and FloatLiteral (§2.4), the lexer resolves this branch using standard LL(1) lookahead:
+- On encountering '0', it inspects the immediate next character.
+- If the character is 'x' or 'X', it commits to HexLiteral and consumes exactly eight hexadecimal digits.
+- ​Any other character leaves the token in the IntLiteral or FloatLiteral pipeline.
+
+Hexadecimal letters are case-insensitive: `0x0055FFFF` and `0x0055ffff` are the same literal.
+
+<details>
+<summary>Example: Tokenization of Hexadecimal Literals</summary>
+```nd
+var mask 0x0055ffff   // HexLiteral(0x0055ffff), strict 8 digits, 32-bit value
+paint 0x0055FFFF      // HexLiteral(0x0055ffff), resolved as a color value by the 'paint' content verb.
+
+```
+</details>
 
 ### 2.6 String Literals
 
