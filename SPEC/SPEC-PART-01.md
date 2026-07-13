@@ -181,12 +181,15 @@ Hexadecimal letters are case-insensitive: `0x0055FFFF` and `0x0055ffff` are the 
 
 <details>
 <summary>Example: Tokenization of Hexadecimal Literals</summary>
+
 ```nd
 var mask 0x0055ffff   // HexLiteral(0x0055ffff), strict 8 digits, 32-bit value
 paint 0x0055FFFF      // HexLiteral(0x0055ffff), resolved as a color value by the 'paint' content verb.
 
 ```
+
 </details>
+
 
 ### 2.6 String Literals
 
