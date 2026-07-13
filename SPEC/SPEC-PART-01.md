@@ -171,7 +171,31 @@ is given in [Appendix B](#appendixbreservedwordlist).
 **Built-in Value**  
 `fit`
 
-### 2.4 Numeric Literals (int, float, norm-context note)
+### 2.4 Numeric Literals  
+
+```ebnf
+NumericLiteral ::= FloatLiteral | IntLiteral
+IntLiteral     ::= [0-9]+
+FloatLiteral   ::= [0-9]+ '.' [0-9]+
+
+```
+The lexer classifies numbers as positive magnitudes.
+ 
+Negative values are produced *syntactically* when a NumericLiteral is preceded by a unary negation operator `-`, which is resolved and folded into a signed binary value during [static analysis](static-analysis), *not* during lexing or parsing. 
+ 
+The presence of a fractional period `.` explicitly designates a FloatLiteral. 
+
+<details>
+
+<summary>Example: Tokenization of Numeric Literals</summary>
+
+```nd
+var x 12          // IntLiteral(12)
+var y -12         // Operator(-), IntLiteral(12)
+var z 0.08        // FloatLiteral(0.08)
+
+```
+</details>
 
 ### 2.5 Color Literals
 
