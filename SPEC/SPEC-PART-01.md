@@ -31,7 +31,9 @@ by the [W3C XML 1.0 (Fifth Edition) specification, §6](https://www.w3.org/TR/xm
 ## 1. Source Form 
 
 ### 1.1 Encoding
-'.nd' source files are UTF-8 encoded. A file containing invalid UTF-8 byte sequences shall be rejected before tokenization. This is a source-encoding error (distinct from syntax error) and must be reported as such.
+'.nd' source files are UTF-8 encoded. 
+
+If a source file contains invalid UTF-8 byte sequences, the compiler must reject the file immediately with a source-encoding error and abort before tokenization begins.
 
 ### 1.2 Whitespace
 - The space character (U+0020) is the only significant whitespace character for token seperation within a line.  
