@@ -134,42 +134,7 @@ Reserved words cannot be used as `Identifier` (§2.2). A token
 matching a reserved word is classified as `ReservedWord`, not
 `Identifier`, regardless of position.
 
-Reserved words are organized below by role for readability; this
-grouping has no grammatical significance. The complete flat list
-is given in [Appendix B](#appendixbreservedwordlist).
-
-**Control Flow & Logic**  
-`if`  `else`  `on`  `each`  `stop`  `return`
-
-**State & Data**  
-`var`  `data`  `task`
-
-**Structure & Scope**  
-`import`  `global`  `slot`
-
-**Operators**  
-`and`  `or`  `not`  `as`  `in`
-
-**Literals**  
-`true`  `false`  `null`
-
-**Properties**  
-`pos`  `size`  `type`  `radius`  `font`  `surface`  `scroll`
-
-**Content Verbs**  
-`text`  `media`  `paint` `sdf`
-
-**Navigation**  
-`go`
-
-**World Model**  
-`world`  `measure`
-
-**Signal Declaration**  
-`signal`
-
-**Built-in Value**  
-`fit`
+See: [Appendix B: Reserved Word List](#appendixbreservedwordlist).
 
 ### 2.4 Numeric Literals  
 
@@ -257,7 +222,7 @@ var z 0.08        // FloatLiteral(0.08)
 
 
 ## Appendix B. Reserved Word List
-The following tokens are unconditionally reserved in all `.nd` and `.ndh` files:
+The following tokens are unconditionally reserved in all `.nd` files:
 
 <table>
   <thead>
