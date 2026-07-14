@@ -191,7 +191,7 @@ The lexer isolates the raw text stream and computes the normalized value using a
 
 This normalization pass executes vacuously as a no-op for single-line strings containing no internal newlines.
 
-#### 2.6.1 Lexical Values
+#### Lexical Values
 
 ​A generated StringLiteral token preserves both the unmodified literal source text (raw_value) and the post-normalization content (clean_value).
 
