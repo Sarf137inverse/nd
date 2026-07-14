@@ -175,16 +175,93 @@ paint 0x0055FFFF      // HexLiteral(0x0055ffff), resolved as a color value by th
 
 </details>
 
-
 ### 2.6 String Literals
 
-#### 2.6.1 Single-line
+```ebnf
+StringLiteral ::= '"' RawContent? '"'
+RawContent    ::= StringChar+
+StringChar    ::= [^"\\{}] | EscapeSequence | Interpolation
+```
 
-#### 2.6.2 Multi-line (capture + normalization rule)
+A string literal begins and ends with double quotes `"`. 
+The lexer isolates the raw text stream and computes the normalized value using a three-step pass:
+ 1. A leading newline (\n) immediately following the opening `"` is discarded.
+ 2. A trailing newline (\n) immediately preceding the closing `"` is discarded.
+ 3. The least-indented, non-blank line establishes the reference indentation. This exact number of leading spaces is stripped uniformly from all lines. Blank lines are unaffected.
 
-#### 2.6.3 Escape Sequences
+This normalization pass executes vacuously as a no-op for single-line strings containing no internal newlines.
 
-#### 2.6.4 Interpolation
+#### 2.6.1 Lexical Values
+
+​A generated StringLiteral token preserves both the unmodified literal source text (raw_value) and the post-normalization content (clean_value).
+
+#### Scope of Markdown Syntax
+
+​A string literal may contain Markdown formatting (such as *emphasis* or `verbatim`). The lexer completely ignores this formatting, treating and preserving all Markdown syntax patterns as ordinary, *uninterpreted* characters.
+
+<details>
+<summary>Example: String Literals</summary>
+
+```nd
+text "Hello." 
+// clean_value: "Hello."
+
+text "
+  First `paragraph`.
+
+  Second paragraph, **still here.**
+"
+// clean_value: "First `paragraph`.\n\nSecond paragraph, **still here.**"
+```
+</details>
+
+#### 2.6.1 Escape Sequences
+
+```ebnf
+EscapeSequence ::= '\' ('"' | '\' | 'n' | 't' | '{' | '}')
+```
+
+Upon encountering an unescaped backslash (\), the lexer consumes the immediate next character literally as *content*, bypassing string termination or interpolation triggers.
+
+Supported escape mappings include \", \\, \n, \t, \{, and \}. Any backslash followed by a character outside this set is a lexical error.
+
+<details>
+<summary>Examples: String Literals - Escape Sequences</summary>
+
+```nd
+text "She said \"go\" and left."
+// clean_value: "She said "go" and left."
+
+text "Use \\n for a literal backslash-n."
+// clean_value: "Use \n for a literal backslash-n."
+
+text "Curly braces: \{not interpolated\}"
+// clean_value: "Curly braces: {not interpolated}"
+
+text "Invalid: \Alonso" 
+// lexical error: 'A' is not a valid escape target
+```
+</details>
+
+#### 2.6.2 Interpolation
+
+```ebnf
+Interpolation ::= '{' Expression '}'
+```
+
+An unescaped `{` inside a string marks the beginning of an interpolation block. The enclosed text is evaluated as an Expression (§3.5). The matching unescaped `}` at the same nesting depth terminates the interpolation block, resuming string-content scanning.
+
+Because StringLiteral and Expression are mutually recursive productions, interpolation blocks may contain nested string literals or nested brace pairs (such as map literals) without interfering with the outer string's own structure.
+
+<details>
+<summary>Examples: String Literals - String Interpolation</summary>
+
+```nd
+text "Hello, {user.name}!"
+text "Result: {count > 10 ? "many" : "few"}"
+```
+The second example contains nested string literals ("many", "few") inside the interpolation block, which are tokenized independently of the outer string's bounding quotes.
+</details>
 
 ### 2.7 Array & Map Literal Delimiters
 
