@@ -93,8 +93,7 @@ IdentStart ::= [a-zA-Z]
 IdentContinue ::= [a-zA-Z0-9_]
 ```
 
-An identifier is a sequence of letters, digits, and underscores,
-not beginning with a digit or underscore. Identifiers are case-sensitive.
+An identifier is a sequence of letters, digits, and underscores, beginning only with a letter. Identifiers are case-sensitive.
 
 The `@` sigil (U+0040) is a separate token (§2.1) and is not part
 of an identifier. `@name` is a grammar-level combination (§3.2), not
