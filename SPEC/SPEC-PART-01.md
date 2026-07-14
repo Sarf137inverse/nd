@@ -262,7 +262,48 @@ text "Result: {count > 10 ? "many" : "few"}"
 The second example contains nested string literals ("many", "few") inside the interpolation block, which are tokenized independently of the outer string's bounding quotes.
 </details>
 
-### 2.7 Array & Map Literal Delimiters
+### 2.7 Array & Map Literals
+
+#### 2.7.1 Array Literals
+
+```ebnf
+ArrayLiteral ::= '[' (Expression (' ' Expression)*)? ']'
+```
+
+An ArrayLiteral represents an ordered sequence of values enclosed in square brackets `[` and `]`. Elements within an array are separated by whitespace (not commas).
+
+<details>
+<summary>Examples: Array Literals</summary>
+  
+```nd
+// Array literal
+var tags ["work" "life" "art"]
+```
+</details>
+
+#### 2.7.2 Map Literals
+
+```ebnf
+MapLiteral   ::= '{' (MapEntry (',' MapEntry)*)? '}'
+MapEntry     ::= BindingTarget Expression
+```
+
+A MapLiteral represents an ordered set of key-value associations enclosed in curly braces `{` and `}`. Map entries are separated by commas `,`. Each entry consists of a key—which must be a BindingTarget, followed by its value Expression.
+
+<details>
+<summary>Examples: Map Literals</summary>
+  
+```nd
+// Map literal
+var priority_color {
+  low    0x2ecc71ff,
+  medium 0xf39c12ff,
+  high   0xe74c3cff,
+  _      0xccccccff
+}
+
+```
+</details>
 
 ### 2.8 Operators & Punctuation
 
