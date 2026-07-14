@@ -197,7 +197,7 @@ This normalization pass executes vacuously as a no-op for single-line strings co
 
 #### Scope of Markdown Syntax
 
-​A string literal may contain Markdown formatting (such as *emphasis* or `verbatim`). The lexer completely ignores this formatting, treating and preserving all Markdown syntax patterns as ordinary, *uninterpreted* characters.
+​A string literal may contain Markdown formatting (such as \*emphasis\* or \`verbatim\`). The lexer completely ignores this formatting, treating and preserving all Markdown syntax patterns as ordinary, *uninterpreted* characters.
 
 <details>
 <summary>Example: String Literals</summary>
