@@ -25,7 +25,7 @@ by the [W3C XML 1.0 (Fifth Edition) specification, §6](https://www.w3.org/TR/xm
 If a source file contains invalid UTF-8 byte sequences, the compiler must reject the file immediately with a source-encoding error and abort before tokenization begins.
 
 ### 1.2 Whitespace
-- The space character (U+0020) is the only significant whitespace character for token seperation within a line.  
+- The space character (U+0020) is the only significant whitespace character for token separation within a line.  
 - Leading whitespace determines indentation level.  
 - The tab character (U+0009) is not permitted in leading whitespace.  
 - A line beginning with a tab is a lexical error.  
