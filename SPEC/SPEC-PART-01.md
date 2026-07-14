@@ -288,7 +288,7 @@ MapLiteral   ::= '{' (MapEntry (',' MapEntry)*)? '}'
 MapEntry     ::= BindingTarget Expression
 ```
 
-A MapLiteral represents an ordered set of key-value associations enclosed in curly braces `{` and `}`. Map entries are separated by commas `,`. Each entry consists of a key—which must be a BindingTarget, followed by its value Expression.
+A MapLiteral represents an ordered set of key-value associations enclosed in curly braces `{` and `}`. Map entries are separated by commas `,`. Each entry consists of a key, which must be a BindingTarget, followed by its value Expression.
 
 <details>
 <summary>Examples: Map Literals</summary>
