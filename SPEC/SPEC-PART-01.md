@@ -126,7 +126,6 @@ The single underscore `_` (U+005F) is a unique lexical token that represents a w
 The wildcard acts as a discard marker. It accepts any value syntactically but does not create a variable binding. Attempting to reference `_` as a variable is a static‑semantic error.
 
 **The Distinction Between identifier Production and The Wildcard**
-
 Because the Identifier production (§2.2) requires starting with a letter, a solitary underscore cannot match as an identifier. The lexer recognise `_` and emits a dedicated Wildcard token, free of conflict.
 
 
