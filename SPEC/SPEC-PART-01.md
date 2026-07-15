@@ -115,7 +115,38 @@ Here `card`, `big_number_two_eventy_wan_k`, and `abstain_island` are each tokeni
 `Identifier`, preceded by a separate `@` token.
 </details>
 
-### 2.3 Reserved Words
+### 2.3 The Wildcard
+
+```ebnf
+Wildcard ::= '_'
+```
+
+The single underscore `_` (U+005F) is a unique lexical token that represents a wildcard pattern.
+
+The wildcard acts as a discard marker. It accepts any value syntactically but does not create a variable binding. Attempting to reference `_` as a variable is a static‑semantic error.
+
+**The Distinction Between identifier Production and The Wildcard**
+
+Because the Identifier production (§2.2) requires starting with a letter, a solitary underscore cannot match as an identifier. The lexer recognise `_` and emits a dedicated Wildcard token, free of conflict.
+
+
+### 2.4 Binding Targets
+
+```ebnf
+BindingTarget ::= Identifier | Wildcard
+```
+
+A BindingTarget is a syntactic abstraction that represents any location in the grammar where a value is introduced, either bound to a named variable or explicitly discarded.
+
+<details>
+<summary>Reasoning: Binding Targets</summary>
+
+By separating this concept into its own named production, the grammar establishes a modular boundary for value resolution. Any downstream compiler implementation can treat BindingTarget as a unified AST node, ensuring that future extensions to the language’s binding mechanics require zero structural modifications to dependent rules like MapEntry.
+
+</details/>
+
+
+### 2.5 Reserved Words
 
 Reserved words cannot be used as `Identifier` (§2.2). A token
 matching a reserved word is classified as `ReservedWord`, not
@@ -123,7 +154,7 @@ matching a reserved word is classified as `ReservedWord`, not
 
 See: [Appendix B: Reserved Word List](#appendixbreservedwordlist).
 
-### 2.4 Numeric Literals  
+### 2.6 Numeric Literals  
 
 ```ebnf
 NumericLiteral ::= FloatLiteral | IntLiteral
@@ -148,7 +179,7 @@ var z 0.08        // FloatLiteral(0.08)
 ```
 </details>
 
-### 2.5 Hexadecimal Literals
+### 2.7 Hexadecimal Literals
 
 ```ebnf
 HexLiteral   ::= '0x' HexDigit{8}
@@ -174,7 +205,7 @@ paint 0x0055FFFF      // HexLiteral(0x0055ffff), resolved as a color value by th
 
 </details>
 
-### 2.6 String Literals
+### 2.8 String Literals
 
 ```ebnf
 StringLiteral ::= '"' RawContent? '"'
@@ -208,7 +239,7 @@ text "
 ```
 </details>
 
-#### 2.6.1 Escape Sequences
+#### 2.8.1 Escape Sequences
 
 ```ebnf
 EscapeSequence ::= '\' ('"' | '\' | 'n' | 't' | '{' | '}')
@@ -236,7 +267,7 @@ text "Invalid: \Alonso"
 ```
 </details>
 
-#### 2.6.2 Interpolation
+#### 2.8.2 Interpolation
 
 ```ebnf
 Interpolation ::= '{' Expression '}'
@@ -256,9 +287,9 @@ text "Result: {count > 10 ? "many" : "few"}"
 The second example contains nested string literals ("many", "few") inside the interpolation block, which are tokenized independently of the outer string's bounding quotes.
 </details>
 
-### 2.7 Array & Map Literals
+### 2.9 Array & Map Literals
 
-#### 2.7.1 Array Literals
+#### 2.9.1 Array Literals
 
 ```ebnf
 ArrayLiteral ::= '[' (Expression (' ' Expression)*)? ']'
@@ -275,7 +306,7 @@ var tags ["work" "life" "art"]
 ```
 </details>
 
-#### 2.7.2 Map Literals
+#### 2.9.2 Map Literals
 
 ```ebnf
 MapLiteral   ::= '{' (MapEntry (',' MapEntry)*)? '}'
@@ -299,9 +330,9 @@ var priority_color {
 ```
 </details>
 
-### 2.8 Operators & Punctuation
+### 2.10 Operators & Punctuation
 
-### 2.9 Indentation (INDENT/DEDENT token rule)
+### 2.11 Indentation (INDENT/DEDENT token rule)
 
 ## 3. Syntactic Grammar
 
