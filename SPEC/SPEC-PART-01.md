@@ -128,23 +128,6 @@ The wildcard acts as a discard marker. It accepts any value syntactically but do
 **The Distinction Between identifier Production and The Wildcard**  
 Because the Identifier production (§2.2) requires starting with a letter, a solitary underscore cannot match as an identifier. The lexer recognise `_` and emits a dedicated Wildcard token, free of conflict.
 
-
-### 2.4 Binding Targets
-
-```ebnf
-BindingTarget ::= Identifier | Wildcard
-```
-
-A BindingTarget is a syntactic abstraction that represents any location in the grammar where a value is introduced, either bound to a named variable or explicitly discarded.
-
-<details>
-<summary>Reasoning: Binding Targets</summary>
-
-By separating this concept into its own named production, the grammar establishes a modular boundary for value resolution. Any downstream compiler implementation can treat BindingTarget as a unified AST node, ensuring that future extensions to the language’s binding mechanics require zero structural modifications to dependent rules like MapEntry.
-
-</details/>
-
-
 ### 2.5 Reserved Words
 
 Reserved words cannot be used as `Identifier` (§2.2). A token
@@ -153,14 +136,15 @@ matching a reserved word is classified as `ReservedWord`, not
 
 See: [Appendix B: Reserved Word List](#appendixbreservedwordlist).
 
-### 2.6 Numeric Literals  
+### 2.6 Literals  
+
+#### 2.6.1 Integer Literals & Float Literals
 
 ```ebnf
-NumericLiteral ::= FloatLiteral | IntLiteral
 IntLiteral     ::= [0-9]+
 FloatLiteral   ::= [0-9]+ '.' [0-9]+
-
 ```
+
 The lexer classifies numbers as positive magnitudes.
  
 Negative values are produced *syntactically* when a NumericLiteral is preceded by a unary negation operator `-`, which is resolved and folded into a signed binary value during [static analysis](static-analysis), *not* during lexing or parsing. 
@@ -178,7 +162,7 @@ var z 0.08        // FloatLiteral(0.08)
 ```
 </details>
 
-### 2.7 Hexadecimal Literals
+#### 2.6.2 Hexadecimal Literals
 
 ```ebnf
 HexLiteral   ::= '0x' HexDigit{8}
@@ -187,10 +171,7 @@ HexDigit     ::= [0-9a-fA-F]
 
 A HexLiteral represents an unsigned 32-bit integer value expressed as a base-16 magnitude. It begins with 0x followed by exactly eight hexadecimal digits.
 
-Because HexLiteral shares its leading digit 0 with IntLiteral and FloatLiteral (§2.4), the lexer resolves this branch using standard LL(1) lookahead:
-- On encountering '0', it inspects the immediate next character.
-- If the character is 'x' or 'X', it commits to HexLiteral and consumes exactly eight hexadecimal digits.
-- ​Any other character leaves the token in the IntLiteral or FloatLiteral pipeline.
+Upon reading 0, if the following character is x or X, the lexer scans a hexadecimal literal; otherwise it scans a decimal literal.
 
 Hexadecimal letters are case-insensitive: `0x0055FFFF` and `0x0055ffff` are the same literal.
 
@@ -204,7 +185,7 @@ paint 0x0055FFFF      // HexLiteral(0x0055ffff), resolved as a color value by th
 
 </details>
 
-### 2.8 String Literals
+#### 2.6.3 String Literals
 
 ```ebnf
 StringLiteral ::= '"' RawContent? '"'
@@ -220,7 +201,7 @@ The lexer isolates the raw text stream and computes the normalized value using a
 
 This normalization pass executes vacuously as a no-op for single-line strings containing no internal newlines.
 
-​A string literal may contain Markdown formatting (such as \*emphasis\* or \`verbatim\`). The lexer completely ignores this formatting, treating and preserving all Markdown syntax patterns as ordinary, *uninterpreted* characters.
+​Markdown has no lexical significance inside string literals.
 
 <details>
 <summary>Example: String Literals</summary>
@@ -238,7 +219,7 @@ text "
 ```
 </details>
 
-#### 2.8.1 Escape Sequences
+##### 2.6.3.1 Escape Sequences
 
 ```ebnf
 EscapeSequence ::= '\' ('"' | '\' | 'n' | 't' | '{' | '}')
@@ -266,7 +247,7 @@ text "Invalid: \Alonso"
 ```
 </details>
 
-#### 2.8.2 Interpolation
+##### 2.6.3.2 Interpolation
 
 ```ebnf
 Interpolation ::= '{' Expression '}'
@@ -286,9 +267,15 @@ text "Result: {count > 10 ? "many" : "few"}"
 The second example contains nested string literals ("many", "few") inside the interpolation block, which are tokenized independently of the outer string's bounding quotes.
 </details>
 
-### 2.9 Array & Map Literals
+### 2.9 Operators & Punctuation
 
-#### 2.9.1 Array Literals
+### 2.10 Indentation (INDENT/DEDENT token rule)
+
+## 3. Syntactic Grammar
+
+### 3.1 Array & Map Literals
+
+#### 3.1.1 Array Literals
 
 ```ebnf
 ArrayLiteral ::= '[' (Expression (' ' Expression)*)? ']'
@@ -305,7 +292,7 @@ var tags ["work" "life" "art"]
 ```
 </details>
 
-#### 2.9.2 Map Literals
+#### 3.1.2 Map Literals
 
 ```ebnf
 MapLiteral   ::= '{' (MapEntry (',' MapEntry)*)? '}'
@@ -329,11 +316,13 @@ var priority_color {
 ```
 </details>
 
-### 2.10 Operators & Punctuation
+### 3.2 Binding Targets
 
-### 2.11 Indentation (INDENT/DEDENT token rule)
+```ebnf
+BindingTarget ::= Identifier | Wildcard
+```
 
-## 3. Syntactic Grammar
+A BindingTarget is a syntactic abstraction that represents any location in the grammar where a value is introduced, either bound to a named variable or explicitly discarded.
 
 ### 3.1 Program Structure
 
