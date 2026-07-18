@@ -273,48 +273,7 @@ The second example contains nested string literals ("many", "few") inside the in
 
 ## 3. Syntactic Grammar
 
-### 3.1 Array & Map Literals
-
-#### 3.1.1 Array Literals
-
-```ebnf
-ArrayLiteral ::= '[' (Expression (' ' Expression)*)? ']'
-```
-
-An ArrayLiteral represents an ordered sequence of values enclosed in square brackets `[` and `]`. Elements within an array are separated by whitespace (not commas).
-
-<details>
-<summary>Examples: Array Literals</summary>
-  
-```nd
-// Array literal
-var tags ["work" "life" "art"]
-```
-</details>
-
-#### 3.1.2 Map Literals
-
-```ebnf
-MapLiteral   ::= '{' (MapEntry (',' MapEntry)*)? '}'
-MapEntry     ::= BindingTarget Expression
-```
-
-A MapLiteral represents an ordered set of key-value associations enclosed in curly braces `{` and `}`. Map entries are separated by commas `,`. Each entry consists of a key, which must be a BindingTarget, followed by its value Expression.
-
-<details>
-<summary>Examples: Map Literals</summary>
-  
-```nd
-// Map literal
-var priority_color {
-  low    0x2ecc71ff,
-  medium 0xf39c12ff,
-  high   0xe74c3cff,
-  _      0xccccccff
-}
-
-```
-</details>
+### 3.1 Program Structure
 
 ### 3.2 Binding Targets
 
@@ -322,34 +281,48 @@ var priority_color {
 BindingTarget ::= Identifier | Wildcard
 ```
 
-A BindingTarget is a syntactic abstraction that represents any location in the grammar where a value is introduced, either bound to a named variable or explicitly discarded.
+A BindingTarget is a syntactic abstraction representing any grammar position where a value may be introduced, either by binding it to an identifier or by discarding it with the wildcard.
 
-### 3.1 Program Structure
+### 3.3 Node Declarations
 
-### 3.2 Node Declaration
+### 3.4 Property Lines
 
-### 3.3 Property Line
+### 3.5 Content Verbs
 
-### 3.4 Content Verbs
+### 3.6 Expressions
 
-### 3.5 Expressions
+### 3.6.1 Precedence Table
 
-#### 3.5.1 Precedence Table
+### 3.6.2 Operators
 
-#### 3.5.2 Operators
+### 3.6.3 Function Calls
 
-#### 3.5.3 Function Calls
+### 3.6.4 Lambda Form
 
-#### 3.5.4 Lambda Form
+### 3.7 Collection Literals
 
-### 3.6 Control Constructs ('if'/'else', 'on', 'each')
+#### 3.7.1 Array Literals
 
-### 3.7 Declarations ('var', 'data', 'task', 'import', 'global')
+```ebnf
+ArrayLiteral ::= '[' (Expression (' ' Expression)*)? ']'
+```
 
-### 3.8 Component Definitions (parameters, 'slot')
+An ArrayLiteral consists of zero or more Expressions enclosed in [ and ].
 
-### 3.9 World Declarations
+Adjacent elements are separated by whitespace. Commas are not permitted.
 
+<details>
+<summary>Example: Array Literals</summary>var tags ["work" "life" "art"]
+
+</details>
+
+### 3.8 Control Constructs
+
+### 3.9 Declarations
+
+### 3.10 Component Definitions
+
+### 3.11 World Declarations
 
 ## 4. Disambiguation Rules
 
