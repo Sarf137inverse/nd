@@ -250,7 +250,7 @@ Interpolation ::= '{' Expression '}'
 
 An unescaped `{` inside a string marks the beginning of an interpolation block. The enclosed text is evaluated as an Expression (§3.5). The matching unescaped `}` at the same nesting depth terminates the interpolation block, resuming string-content scanning.
 
-Because StringLiteral and Expression are mutually recursive productions, interpolation blocks may contain nested string literals or nested brace pairs (such as map literals) without interfering with the outer string's own structure.
+Because StringLiteral and Expression are mutually recursive productions, interpolation blocks may contain nested string literals or nested brace pairs without interfering with the outer string's own structure.
 
 <details>
 <summary>Examples: String Literals - String Interpolation</summary>
