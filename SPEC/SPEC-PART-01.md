@@ -267,9 +267,13 @@ text "Result: {count > 10 ? "many" : "few"}"
 The second example contains nested string literals ("many", "few") inside the interpolation block, which are tokenized independently of the outer string's bounding quotes.
 </details>
 
-### 2.9 Operators & Punctuation
+### 2.9 Operators
 
-### 2.10 Indentation (INDENT/DEDENT token rule)
+### 2.10 Punctuation
+
+### 2.11 Synthetic Tokens
+
+### 2.12 Indentation (INDENT/DEDENT token rule)
 
 ## 3. Syntactic Grammar
 
