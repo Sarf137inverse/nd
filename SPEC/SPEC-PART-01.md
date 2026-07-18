@@ -70,20 +70,19 @@ Comments are not recognized inside string literals. // inside a string is treate
 
 The lexer produces a stream of tokens in the following categories. Comments (§1.4) and non-indentation whitespace are consumed by the lexer and do not appear in the token stream.
 
-| Category | Examples | Defined in |
-|----------|----------|------------|
-| Identifier | `count`, `post`, `card` | §2.2 |
-| Node Sigil | `@` | §2.2 |
-| Reserved Word | `var`, `if`, `each`, `import` | §2.3 |
-| Integer | `200`, `-32`, `0` | §2.4 |
-| Float | `0.08`, `-0.1` | §2.4 |
-| Color | `0x0055ffff` | §2.5 |
-| String | `"hello"`, multi-line, interpolated | §2.6 |
-| Punctuation | `(`, `)`, `[`, `]`, `{`, `}`, `.`, `,` | §2.7, §2.8 |
-| Operator | `+`, `==`, `?`, `??`, `\|`, `..` | §2.8 |
-| INDENT / DEDENT | (synthetic, no source text) | §2.9 |
-| NEWLINE | (synthetic, statement separator) | §2.9 |
-| EOF | (synthetic, end of token stream) | — |
+| Category       | Examples                              | Defined in |
+|----------------|---------------------------------------|------------|
+| Identifier     | `count`, `post`, `card`               | §2.2       |
+| Wildcard       | `_`                                   | §2.3       |
+| ReservedWord   | `var`, `if`, `each`                   | §2.5       |
+| Literal        | `12`, `0.8`, `0x44bb66aa`, `"hello"`  | §2.6       |
+| NodeSigil      | `@`                                   | §2.10      |
+| Operator       | `+`, `==`, `?`, `..`                  | §2.9       |
+| Punctuation    | `(`, `)`, `[`, `]`, `{`, `}`          | §2.10      |
+| NEWLINE        | (synthetic)                           | §2.11      |
+| INDENT         | (synthetic)                           | §2.12      |
+| DEDENT         | (synthetic)                           | §2.12      |
+| EOF            | (synthetic)                           | §2.11      |
 
 ### 2.2 Identifiers
 
