@@ -22,7 +22,7 @@ by the [W3C XML 1.0 (Fifth Edition) specification, §6](https://www.w3.org/TR/xm
 ### 1.1 Encoding
 '.nd' source files are UTF-8 encoded. 
 
-If a source file contains invalid UTF-8 byte sequences, the compiler must reject the file immediately with a source-encoding error and abort before tokenization begins.
+If a source file contains invalid UTF-8 byte sequences, the compiler shall reject the source file immediately with a source-encoding error and abort before tokenization begins.
 
 ### 1.2 Whitespace
 - The space character (U+0020) is the only significant whitespace character for token separation within a line.  
@@ -94,7 +94,7 @@ IdentContinue ::= [a-zA-Z0-9_]
 
 An identifier is a sequence of letters, digits, and underscores, beginning only with a letter. Identifiers are case-sensitive.
 
-The `@` sigil (U+0040) is a separate token (§2.1) and is not part
+The `@` sigil (U+0040) is a separate token (§2.10) and is not part
 of an identifier. `@name` is a grammar-level combination (§3.2), not
 a single lexical token.
 
@@ -141,7 +141,7 @@ FloatLiteral   ::= [0-9]+ '.' [0-9]+
 
 The lexer classifies numbers as positive magnitudes.
  
-Negative values are produced *syntactically* when a NumericLiteral is preceded by a unary negation operator `-`, which is resolved and folded into a signed binary value during [static analysis](static-analysis), *not* during lexing or parsing. 
+A leading `-` is tokenized separately as MinusOp. Signed numeric values are formed during syntactic and semantic analysis, not during lexing.
  
 The presence of a fractional period `.` explicitly designates a FloatLiteral. 
 
@@ -165,16 +165,17 @@ HexDigit     ::= [0-9a-fA-F]
 
 A HexLiteral represents an unsigned 32-bit integer value expressed as a base-16 magnitude. It begins with 0x followed by exactly eight hexadecimal digits.
 
-Upon reading 0, if the following character is x or X, the lexer scans a hexadecimal literal; otherwise it scans a decimal literal.
+Upon reading 0, if the following character is x, the lexer scans a hexadecimal literal; otherwise it scans a decimal literal.
 
-Hexadecimal letters are case-insensitive: `0x0055FFFF` and `0x0055ffff` are the same literal.
+Hexadecimal letters are case-insensitive.
 
 <details>
 <summary>Example: Tokenization of Hexadecimal Literals</summary>
 
 ```nd
 var mask 0x0055ffff   // HexLiteral(0x0055ffff), strict 8 digits, 32-bit value
-paint 0x0055FFFF      // HexLiteral(0x0055ffff), resolved as a color value by the 'paint' content verb.
+paint 0x0055ffff      // HexLiteral(0x0055ffff), resolved as a color value by the 'paint' content verb.
+paint 0x0055FFFF      // `0x0055FFFF` and `0x0055ffff` are the same literal.
 ```
 
 </details>
@@ -188,7 +189,8 @@ StringChar    ::= [^"\\{}] | EscapeSequence | Interpolation
 ```
 
 A string literal begins and ends with double quotes `"`. 
-The lexer isolates the raw text stream and computes the normalized value using a three-step pass:
+
+The lexical value of a multiline string is obtained by:
  1. A leading newline (\n) immediately following the opening `"` is discarded.
  2. A trailing newline (\n) immediately preceding the closing `"` is discarded.
  3. The least-indented, non-blank line establishes the reference indentation. This exact number of leading spaces is stripped uniformly from all lines. Blank lines are unaffected.
