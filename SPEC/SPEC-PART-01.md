@@ -315,8 +315,8 @@ When a sequence of characters may form either a single operator token or multipl
 <details>
 <summary>Examples: Longest-Match Rule</summary>
 
-- `..` is tokenized as a single `OpRange`.
-- `??` is tokenized as a single `OpQuestionQuestion`.
+- `..` is tokenized as a single `RangeOp`.
+- `??` is tokenized as a single `QuestionQuestionOp`.
 - `==`, `!=`, `<=`, and `>=` are each tokenized as single operator tokens.
 - `+=`, `<<=`, and other compound assignment forms are each tokenized as single operator tokens.
 
@@ -361,6 +361,64 @@ RangeOp
 </details>
 
 ### 2.10 Punctuation
+
+This section defines every punctuation token recognized by the lexer. Their syntactic roles are defined elsewhere in this specification.
+
+#### 2.10.1 Punctuation Tokens
+
+```ebnf
+AtSign         ::= '@'
+
+LeftParen      ::= '('
+RightParen     ::= ')'
+
+LeftBracket    ::= '['
+RightBracket   ::= ']'
+
+LeftBrace      ::= '{'
+RightBrace     ::= '}'
+
+Dot            ::= '.'
+Comma          ::= ','
+Colon          ::= ':'
+Semicolon      ::= ';'
+```
+
+#### 2.10.2 Longest-Match Rule
+
+Punctuation tokens are recognized only after the longest-match rule for operator tokens (§2.9.2) has been applied. 
+
+eg: `..` is tokenized as `RangeOp`, not two `Dot` tokens.
+
+<details>
+<summary>Example: Tokenization of Punctuation</summary>
+
+```nd
+@button(size.x, colors[0]);
+```
+
+The corresponding punctuation tokens are:
+
+```text
+AtSign
+LeftParen
+Dot
+Comma
+LeftBracket
+RightBracket
+RightParen
+Semicolon
+```
+
+</details>
+
+#### 2.10.3 Usage
+
+Recognition of a punctuation token by the lexer does not imply that it is syntactically valid.
+
+Some punctuation tokens are reserved for diagnostics, future language evolution, or implementation convenience, and may not participate in any grammar production defined by this specification.
+
+The parser shall report a syntax error upon encountering a punctuation token in a context where no grammar production permits it.
 
 ### 2.11 Synthetic Tokens
 
