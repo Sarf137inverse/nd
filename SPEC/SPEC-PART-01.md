@@ -399,7 +399,7 @@ eg: `..` is tokenized as `RangeOp`, not two `Dot` tokens.
 <summary>Example: Tokenization of Punctuation</summary>
 
 ```nd
-@button(size.x, colors[0]);
+@button(size.x, colors[0])
 ```
 
 The corresponding punctuation tokens are:
@@ -412,7 +412,6 @@ Comma
 LeftBracket
 RightBracket
 RightParen
-Semicolon
 ```
 
 </details>
