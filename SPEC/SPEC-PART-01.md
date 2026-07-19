@@ -23,7 +23,7 @@ by the [W3C XML 1.0 (Fifth Edition) specification, §6](https://www.w3.org/TR/xm
 
 '.nd' source files are UTF-8 encoded. 
 
-If a source file contains invalid UTF-8 byte sequences, the compiler shall reject the source file immediately with a source-encoding error and abort before tokenization begins.
+If a source file contains an invalid UTF-8 byte sequence, the compiler shall reject the source file before tokenization begins.
 
 ### 1.2 Whitespace
 
