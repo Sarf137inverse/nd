@@ -10,7 +10,7 @@ This document defines the definitive lexical and syntactic grammar for .nd sourc
 - ​**Static Semantics:** Governs type checking, name binding, and scope resolution. (see: [Static Semantics specification]())
 - **​Runtime Semantics:** Governs bytecode generation, frame execution, and standard library behavior. (see: [Runtime Semantics specification]())
 
-​Syntax verification occurs entirely before static-semantic analysis. The compiler must abort with a syntax error upon encountering any token sequence not defined by this grammar.
+​Syntax verification occurs entirely before static-semantic analysis. If a source file contains an invalid UTF-8 byte sequence, the compiler shall reject the source file before tokenization begins.
 
 ### Notation  
 Grammar productions in this document use the EBNF notation defined
@@ -20,11 +20,13 @@ by the [W3C XML 1.0 (Fifth Edition) specification, §6](https://www.w3.org/TR/xm
 ## 1. Source Form 
 
 ### 1.1 Encoding
+
 '.nd' source files are UTF-8 encoded. 
 
 If a source file contains invalid UTF-8 byte sequences, the compiler shall reject the source file immediately with a source-encoding error and abort before tokenization begins.
 
 ### 1.2 Whitespace
+
 - The space character (U+0020) is the only significant whitespace character for token separation within a line.  
 - Leading whitespace determines indentation level.  
 - The tab character (U+0009) is not permitted in leading whitespace.  
@@ -32,6 +34,7 @@ If a source file contains invalid UTF-8 byte sequences, the compiler shall rejec
 - Tabs may only appear inside string literals.
 
 ### 1.3 Line Endings
+
 The following terminators are supported:
 - LF (\n)
 - CRLF (\r\n)  
