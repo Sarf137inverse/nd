@@ -412,13 +412,17 @@ Semicolon
 
 </details>
 
-#### 2.10.3 Usage
+  
+<details>
+<summary><b>Note: Recognition vs. Usage</b></summary>
 
 Recognition of a punctuation token by the lexer does not imply that it is syntactically valid.
 
-Some punctuation tokens are reserved for diagnostics, future language evolution, or implementation convenience, and may not participate in any grammar production defined by this specification.
+Some punctuation tokens are recognized for diagnostics, future language evolution, or implementation convenience, and may not participate in any grammar production defined by this specification.
 
 The parser shall report a syntax error upon encountering a punctuation token in a context where no grammar production permits it.
+
+</details>
 
 ### 2.11 Synthetic Tokens
 
