@@ -162,11 +162,11 @@ var z 0.08        // FloatLiteral(0.08)
 #### 2.6.2 Hexadecimal Literals
 
 ```ebnf
-HexLiteral   ::= '0x' HexDigit{8}
+HexLiteral   ::= '0x' HexDigit+
 HexDigit     ::= [0-9a-fA-F]
 ```
 
-A HexLiteral represents an unsigned 32-bit integer value expressed as a base-16 magnitude. It begins with 0x followed by exactly eight hexadecimal digits.
+A HexLiteral represents an unsigned integer value written in hexadecimal notation. It consists of the prefix 0x followed by one or more hexadecimal digits.
 
 Upon reading 0, if the following character is x, the lexer scans a hexadecimal literal; otherwise it scans a decimal literal.
 
@@ -176,7 +176,7 @@ Hexadecimal letters are case-insensitive.
 <summary>Example: Tokenization of Hexadecimal Literals</summary>
 
 ```nd
-var mask 0x0055ffff   // HexLiteral(0x0055ffff), strict 8 digits, 32-bit value
+var mask 0x0055ffff   // HexLiteral(0x0055ffff)
 paint 0x0055ffff      // HexLiteral(0x0055ffff), resolved as a color value by the 'paint' content verb.
 paint 0x0055FFFF      // `0x0055FFFF` and `0x0055ffff` are the same literal.
 ```
