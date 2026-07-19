@@ -263,6 +263,103 @@ The second example contains nested string literals ("many", "few") inside the in
 
 ### 2.9 Operators
 
+This section defines every operator token recognized by the lexer. Their syntactic roles, precedence, associativity, and evaluation semantics are defined elsewhere in this specification.
+
+#### 2.9.1 Operator Tokens
+
+```ebnf
+PlusOp              ::= '+'
+MinusOp             ::= '-'
+StarOp              ::= '*'
+SlashOp             ::= '/'
+PercentOp           ::= '%'
+
+AmpersandOp         ::= '&'
+CaretOp             ::= '^'
+TildeOp             ::= '~'
+
+ShiftLeftOp         ::= '<<'
+ShiftRightOp        ::= '>>'
+
+EqualOp             ::= '='
+PlusEqualOp         ::= '+='
+MinusEqualOp        ::= '-='
+StarEqualOp         ::= '*='
+SlashEqualOp        ::= '/='
+PercentEqualOp      ::= '%='
+AmpersandEqualOp    ::= '&='
+CaretEqualOp        ::= '^='
+ShiftLeftEqualOp    ::= '<<='
+ShiftRightEqualOp   ::= '>>='
+
+EqualEqualOp        ::= '=='
+BangEqualOp         ::= '!='
+LessOp              ::= '<'
+LessEqualOp         ::= '<='
+GreaterOp           ::= '>'
+GreaterEqualOp      ::= '>='
+
+QuestionOp          ::= '?'
+QuestionQuestionOp  ::= '??'
+
+PipeOp              ::= '|'
+RangeOp             ::= '..'
+```
+
+#### 2.9.2 Longest-Match Rule
+
+The lexer applies the longest-match rule when recognizing operator tokens.
+
+When a sequence of characters may form either a single operator token or multiple shorter tokens, the longest valid operator token shall be produced.
+
+<details>
+<summary>Examples: Longest-Match Rule</summary>
+
+- `..` is tokenized as a single `OpRange`.
+- `??` is tokenized as a single `OpQuestionQuestion`.
+- `==`, `!=`, `<=`, and `>=` are each tokenized as single operator tokens.
+- `+=`, `<<=`, and other compound assignment forms are each tokenized as single operator tokens.
+
+</details>
+
+#### 2.9.3 Word Operators
+
+The reserved words `and`, `or`, and `not` participate in expression grammar as logical operators.
+
+Because they are reserved words (§2.5), they are tokenized as `ReservedWord` tokens rather than `Operator` tokens.
+
+The reserved word `as` is not an operator token. It participates only in the grammar for binding expressions and is defined in the syntactic grammar.
+
+<details>
+<summary>Example: Tokenization of Operators</summary>
+
+```nd
+var x = a + b * c
+
+if x >= 10
+  text "large"
+
+value ?? fallback
+
+count += 1
+
+0 .. 10
+```
+
+The corresponding operator tokens are:
+
+```ebnf
+EqualOp
+PlusOp
+StarOp
+GreaterEqualOp
+QuestionQuestionOp
+PlusEqualOp
+RangeOp
+```
+
+</details>
+
 ### 2.10 Punctuation
 
 ### 2.11 Synthetic Tokens
