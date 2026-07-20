@@ -320,7 +320,7 @@ When a sequence of characters may form either a single operator token or multipl
 <details>
 <summary>Examples: Longest-Match Rule</summary>
 
-- `..` is tokenized as a single `RangeOp`.
+- `..` is tokenized as a single `DotDotOp`.
 - `??` is tokenized as a single `QuestionQuestionOp`.
 - `==`, `!=`, `<=`, and `>=` are each tokenized as single operator tokens.
 - `+=`, `<<=`, and other compound assignment forms are each tokenized as single operator tokens.
