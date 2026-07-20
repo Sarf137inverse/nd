@@ -308,7 +308,7 @@ QuestionOp          ::= '?'
 QuestionQuestionOp  ::= '??'
 
 PipeOp              ::= '|'
-RangeOp             ::= '..'
+DotDotOp             ::= '..'
 ```
 
 #### 2.9.2 Longest-Match Rule
