@@ -430,6 +430,34 @@ The parser shall report a syntax error upon encountering a punctuation token in 
 
 ### 2.11 Synthetic Tokens
 
+Synthetic tokens are produced by the lexer that have no corresponding source text.
+
+#### 2.11.1 NEWLINE
+
+A NEWLINE token marks the end of a logical source line. A logical source line contains at least one non-synthetic token.
+
+The lexer emits NEWLINE token at each line terminator, unless the line produced no tokens (empty, whitespace‑only, or comment‑only).
+
+If the last line of the file contains tokens but no line terminator, the lexer adds a NEWLINE before EOF.
+
+#### 2.11.2 EOF
+
+EOF marks the end of the token stream.
+
+The lexer emits exactly one EOF after all other tokens, including any trailing NEWLINE and DEDENT.
+
+<details>
+<summary>Example</summary>
+
+```nd
+@card
+  size 1.0 fit
+```
+
+Tokens: NEWLINE INDENT NEWLINE DEDENT EOF
+
+</details>
+
 ### 2.12 Indentation (INDENT/DEDENT token rule)
 
 ## 3. Syntactic Grammar
