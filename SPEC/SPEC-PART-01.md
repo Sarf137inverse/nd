@@ -10,7 +10,7 @@ This document defines the definitive lexical and syntactic grammar for .nd sourc
 - ​**Static Semantics:** Governs type checking, name binding, and scope resolution. (see: [Static Semantics specification]())
 - **​Runtime Semantics:** Governs bytecode generation, frame execution, and standard library behavior. (see: [Runtime Semantics specification]())
 
-​Syntax verification occurs entirely before static-semantic analysis. If a source file contains an invalid UTF-8 byte sequence, the compiler shall reject the source file before tokenization begins.
+​Syntax verification occurs entirely before static-semantic analysis. Source files shall conform to the requirements defined in §1.
 
 ### Notation  
 Grammar productions in this document use the EBNF notation defined
@@ -393,7 +393,7 @@ Semicolon      ::= ';'
 
 Punctuation tokens are recognized only after the longest-match rule for operator tokens (§2.9.2) has been applied. 
 
-eg: `..` is tokenized as `RangeOp`, not two `Dot` tokens.
+eg: `..` is tokenized as `DotDotOp`, not two `Dot` tokens.
 
 <details>
 <summary>Example: Tokenization of Punctuation</summary>
@@ -436,7 +436,7 @@ Synthetic tokens are produced by the lexer that have no corresponding source tex
 
 A NEWLINE token marks the end of a logical source line. A logical source line contains at least one non-synthetic token.
 
-The lexer emits NEWLINE token at each line terminator, unless the line produced no tokens (empty, whitespace‑only, or comment‑only).
+The lexer emits a NEWLINE token at each line terminator, unless the line produced no tokens (empty, whitespace‑only, or comment‑only).
 
 If the last line of the file contains tokens but no line terminator, the lexer adds a NEWLINE before EOF.
 
