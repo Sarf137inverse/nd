@@ -27,11 +27,10 @@ If a source file contains an invalid UTF-8 byte sequence, the compiler shall rej
 
 ### 1.2 Whitespace
 
-- The space character (U+0020) is the only significant whitespace character for token separation within a line.  
-- Leading whitespace determines indentation level.  
-- The tab character (U+0009) is not permitted in leading whitespace.  
-- A line beginning with a tab is a lexical error.  
-- Tabs may only appear inside string literals.
+- The space character (U+0020) is the only whitespace character used for token separation within a line.
+- Leading tab characters (U+0009) determine indentation level (§2.12).
+- A space character (U+0020) shall not appear within the leading indentation of a logical source line. Encountering one is a lexical error.
+- Tabs shall not appear outside leading indentation or string literals. Encountering one elsewhere is a lexical error.
 
 ### 1.3 Line Endings
 
