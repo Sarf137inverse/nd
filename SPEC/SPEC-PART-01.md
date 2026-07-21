@@ -458,7 +458,71 @@ Tokens: NEWLINE INDENT NEWLINE DEDENT EOF
 
 </details>
 
-### 2.12 Indentation (INDENT/DEDENT token rule)
+### 2.12 Indentation
+
+The `.nd` language uses leading tab characters to define block structure. The lexer tracks indentation levels and emits `INDENT` and `DEDENT` tokens to make block boundaries explicit in the token stream.
+
+#### 2.12.1 Indentation Characters
+
+Leading indentation consists exclusively of zero or more tab characters (U+0009).
+
+A space character (U+0020) shall not appear within the leading indentation of a logical source line. Encountering one is a lexical error.
+
+#### 2.12.2 Indentation Stack
+
+The lexer maintains a stack of indentation levels. The stack is initialized with the single value `0`. The top of the stack represents the current indentation level.
+
+#### 2.12.3 Token Emission
+
+The indentation algorithm runs after a `NEWLINE` token (§2.11) has been emitted and before the next logical source line is tokenized.
+
+For each logical source line:
+
+1. Count the number of consecutive leading tab characters. This is the line's indentation level.
+2. Compare the indentation level with the top of the indentation stack.
+   - If the indentation level is greater than the current level by exactly one, push the new level onto the stack and emit one `INDENT` token.
+   - If the indentation level is equal to the current level, emit neither `INDENT` nor `DEDENT`.
+   - If the indentation level is less than the current level, pop indentation levels until the top of the stack equals the line's indentation level, emitting one `DEDENT` token for each level removed. If no matching indentation level exists, the lexer shall report a lexical error (inconsistent dedentation).
+   - If the indentation level is greater than the current level by more than one, the lexer shall report a lexical error.
+
+3. Tokenization then proceeds normally on the remainder of the line.
+
+#### 2.12.4 End of File
+
+Before emitting `EOF` (§2.11), the lexer emits one `DEDENT` token for each indentation level remaining on the stack above `0`.
+
+<details>
+<summary>Example: Indentation Tokens</summary>
+
+```nd
+@card
+	pos 0.5 0.5
+	size 1.0 fit
+	if active
+		paint 0x00ff00ff
+	else
+		paint 0xff0000ff
+```
+
+Synthetic token stream:
+
+```text
+NEWLINE
+INDENT
+NEWLINE
+NEWLINE
+INDENT
+NEWLINE
+DEDENT
+NEWLINE
+INDENT
+NEWLINE
+DEDENT
+DEDENT
+EOF
+```
+
+</details>
 
 ## 3. Syntactic Grammar
 
